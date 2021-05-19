@@ -1,0 +1,1 @@
+export { QuizProvider } from './quizContext/quizContext'
