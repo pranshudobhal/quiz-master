@@ -5,7 +5,7 @@ import { Quiz } from '../../data/quiz.types';
 
 export function Home() {
   return (
-    <Stack direction={['column', 'row']} spacing="24px" m={4}>
+    <Stack direction={['column', 'row']} spacing="24px" m={4} justify="center">
       {quizzez.map((quiz: Quiz) => {
         return <QuizCard key={quiz.id} quizItem={quiz} />;
       })}
