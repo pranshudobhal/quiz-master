@@ -1,14 +1,14 @@
 import { Quiz } from "../../data/quiz.types"
 
-export type InitialStateType = { selectedQuiz: Quiz | null; currentQuestionNumber: number; }
+export type InitialState = { selectedQuiz: Quiz | null; currentQuestionNumber: number; }
 
-export type DispatchType = (action: ActionType) => void
+export type Dispatch = (action: Action) => void
 
-export type QuizProviderType = { children: React.ReactNode }
+export type QuizProvider = { children: React.ReactNode }
 
-export type CreateContextType = { state: InitialStateType; dispatch: DispatchType } | undefined
+export type CreateContext = { state: InitialState; dispatch: Dispatch } | undefined
 
-export type ActionType = 
+export type Action = 
  | { type: 'INITIALIZE_SELECTED_QUIZ', payload: {quiz: Quiz} }
  | { type: 'INCREMENT_SCORE' }
  | { type: 'DECREMENT_SCORE' }

@@ -1,8 +1,8 @@
-import { ActionType, InitialStateType } from './quizContext.types';
+import { Action, InitialState } from './quizContext.types';
 
-export const initialState: InitialStateType = { selectedQuiz: null, currentQuestionNumber: 1 };
+export const initialState: InitialState = { selectedQuiz: null, currentQuestionNumber: 1 };
 
-export const quizReducer = (state: InitialStateType, action: ActionType): InitialStateType => {
+export const quizReducer = (state: InitialState, action: Action): InitialState => {
   switch (action.type) {
     case 'INITIALIZE_SELECTED_QUIZ':
       return {
