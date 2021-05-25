@@ -1,15 +1,15 @@
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, useContext, useReducer, FunctionComponent } from 'react';
 import { quizReducer, initialState } from './quizReducer';
-import { CreateContext, QuizProvider as QuizProviderType } from './quizContext.types';
+import { CreateContext } from './quizContext.types';
 
-const QuizContext = createContext<CreateContext>({} as CreateContext);
+const QuizContext = createContext<CreateContext>({ state: initialState, dispatch: () => null });
 
-export function QuizProvider({ children }: QuizProviderType) {
+export const QuizProvider: FunctionComponent = ({ children }) => {
   const [state, dispatch] = useReducer(quizReducer, initialState);
 
   return <QuizContext.Provider value={{ state, dispatch }}>{children}</QuizContext.Provider>;
-}
+};
 
-export function useQuiz() {
+export const useQuiz = () => {
   return useContext(QuizContext);
-}
+};

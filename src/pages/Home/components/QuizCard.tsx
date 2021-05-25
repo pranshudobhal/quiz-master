@@ -1,10 +1,12 @@
 import { Box, Center, Heading, Text, Stack, Button, Image, useColorModeValue } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
+import { useQuiz } from '../../../context/quizContext/quizContext';
 import { Quiz } from '../../../data/quiz.types';
 
 export function QuizCard({ quizItem }: { quizItem: Quiz }) {
   const navigate = useNavigate();
   const { id, name } = quizItem;
+  const { dispatch } = useQuiz();
 
   return (
     <Center py={4}>
@@ -23,7 +25,14 @@ export function QuizCard({ quizItem }: { quizItem: Quiz }) {
           <Text color={'gray.500'}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, at.</Text>
         </Stack>
         <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
-          <Button colorScheme="teal" size="md" onClick={() => navigate(`/quiz/${id}`)}>
+          <Button
+            colorScheme="teal"
+            size="md"
+            onClick={() => {
+              navigate(`/quiz/${id}`);
+              dispatch({ type: 'INITIALIZE_SELECTED_QUIZ', payload: { quiz: quizItem } });
+            }}
+          >
             Play
           </Button>
         </Stack>

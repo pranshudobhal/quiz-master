@@ -1,7 +1,8 @@
 import { Flex, Stack, Heading, Text, Button, useColorModeValue } from '@chakra-ui/react';
 import { InfoIcon } from '@chakra-ui/icons';
+import React, { SetStateAction } from 'react';
 
-export function RulesContainer() {
+export function RulesContainer({ setStartQuiz }: { setStartQuiz: React.Dispatch<SetStateAction<boolean>> }) {
   return (
     <Flex minH={'70vh'} align={'center'} justify={'center'} py={12} bg={useColorModeValue('gray.50', 'gray.800')}>
       <Stack boxShadow={'2xl'} maxW={['365px', '60vw', '50vw', '50vw', '40vw']} bg={useColorModeValue('white', 'gray.700')} rounded={'xl'} p={[8, 10]} spacing={8} align={'center'}>
@@ -29,7 +30,7 @@ export function RulesContainer() {
           </Stack>
         </Stack>
         <Stack spacing={4} direction={{ base: 'column', md: 'row' }} w={'50%'}>
-          <Button bg={'blue.400'} rounded={'full'} color={'white'} flex={'1 0 auto'} _hover={{ bg: 'blue.500' }} _focus={{ bg: 'blue.500' }}>
+          <Button onClick={() => setStartQuiz(true)} bg={'blue.400'} rounded={'full'} color={'white'} flex={'1 0 auto'} _hover={{ bg: 'blue.500' }} _focus={{ bg: 'blue.500' }}>
             Start Quiz
           </Button>
         </Stack>

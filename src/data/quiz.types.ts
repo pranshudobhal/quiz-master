@@ -1,23 +1,26 @@
 export type Option = {
-    id: number;
+    id: string;
     text: string;   
     isRight: boolean;
   };
   
   export type Question = {
-    id: number;
+    id: string;
     question: string;
     points: number;
-    negativePoint?: number;
+    selectedOptionID?: number | null;
+    negativePoints?: number;
     options: Option[];
   };
   
   export type Quiz = {
-    id: number;
+    id: string;
     name: string;
     score: number;
     totalQuestions: number;
     playTime: string;
     questions: Question[];
   };
+
+  export type AllQuizzes = Quiz[];
   
