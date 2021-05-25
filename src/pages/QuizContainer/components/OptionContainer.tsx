@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, useColorModeValue } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useQuiz } from '../../../context/quizContext/quizContext';
@@ -49,15 +49,19 @@ export function OptionContainer({ currentQuestion: question, optionData: option,
     }, 2000);
   };
 
+  const buttonColor = useColorModeValue('gray.200', 'gray.800');
+  const correctAnswerColor = useColorModeValue('green.300', 'green.400');
+  const wrongAnswerColor = useColorModeValue('red.500', 'red.600');
+
   const getOptionStyles = () => {
     if (!isOptionClickEnabled) {
       if (option.isRight) {
-        return 'green.400';
+        return correctAnswerColor;
       } else if (option.id === selectedOptionID) {
-        return 'red.600';
+        return wrongAnswerColor;
       }
     }
-    return 'gray.800';
+    return buttonColor;
   };
 
   return (

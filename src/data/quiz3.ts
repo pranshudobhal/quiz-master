@@ -32,12 +32,12 @@ export const quiz3: Quiz = {
         negativePoints: 5,
         options: [
           {
-            id: "311",
+            id: "321",
             text: 'getting trained as master of the mystic arts',
             isRight: false,
           },
           {
-            id: "312",
+            id: "322",
             text: 'performing surgery as a real doctor',
             isRight: true,
           },
@@ -49,12 +49,12 @@ export const quiz3: Quiz = {
         points: 5,
         options: [
           {
-            id: "311",
+            id: "331",
             text: 'Clint',
             isRight: false,
           },
           {
-            id: "312",
+            id: "332",
             text: 'Vision',
             isRight: true,
           },
