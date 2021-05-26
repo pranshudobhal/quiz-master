@@ -1,30 +1,24 @@
-/**
- * TODO:
- *
- * 1. Display rules container with start quiz button -- done
- * 2. User clicks on Start quiz, remove the rules container and display the quiz questions -- done
- *
- * Quiz Questions: Either in a single list in downward manner, or one by one like cards -- done
- *
- * 3. User clicks on option, then selects Next, dispatch 2 actions: one log the answer in an array, second increment question number -- done
- * 4. Show Result
- */
-
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import { useQuiz } from '../../context/quizContext/quizContext';
+import { allQuizzez } from '../../data/getQuiz';
+import { Quiz } from '../../data/quiz.types';
 import { QuestionContainer } from './components/QuestionContainer';
 import { RulesContainer } from './components/RulesContainer';
 
 export function QuizContainer() {
   const [startQuiz, setStartQuiz] = useState<boolean>(false);
+  const { dispatch } = useQuiz();
+  const { quizID } = useParams();
+  const quiz = allQuizzez.find((quizItem) => quizItem.id === quizID) as Quiz;
 
-  /**
-   * TODO:
-   * 1. use useEffect() to initialize quiz on rules page, take the quizID from params and initialize here
-   */
+  useEffect(() => {
+    dispatch({ type: 'INITIALIZE_SELECTED_QUIZ', payload: { quiz: quiz as Quiz } });
+  }, [dispatch, quiz]);
 
   return (
     <div>
-      {!startQuiz && <RulesContainer setStartQuiz={setStartQuiz} />}
+      {!startQuiz && <RulesContainer setStartQuiz={setStartQuiz} quiz={quiz} />}
       {startQuiz && <QuestionContainer />}
     </div>
   );

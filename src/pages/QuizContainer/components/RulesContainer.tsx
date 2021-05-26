@@ -1,14 +1,16 @@
 import { Flex, Stack, Heading, Text, Button, useColorModeValue } from '@chakra-ui/react';
 import { InfoIcon } from '@chakra-ui/icons';
 import React, { SetStateAction } from 'react';
+import { Quiz } from '../../../data/quiz.types';
 
-export function RulesContainer({ setStartQuiz }: { setStartQuiz: React.Dispatch<SetStateAction<boolean>> }) {
+export function RulesContainer({ setStartQuiz, quiz }: { setStartQuiz: React.Dispatch<SetStateAction<boolean>>; quiz: Quiz }) {
+  const { name } = quiz;
   return (
     <Flex minH={'70vh'} align={'center'} justify={'center'} py={12} bg={useColorModeValue('gray.50', 'gray.800')}>
       <Stack boxShadow={'2xl'} maxW={['365px', '60vw', '50vw', '50vw', '40vw']} bg={useColorModeValue('white', 'gray.700')} rounded={'xl'} p={[8, 10]} spacing={8} align={'center'}>
         <Stack spacing={2}>
           <Heading align={'center'} textTransform={'uppercase'} fontSize={['xl', '2xl', '3xl']} mb={5} color={useColorModeValue('gray.800', 'gray.200')}>
-            Quiz Name
+            {name}
           </Heading>
           <Stack isInline align={'baseline'} pb={2}>
             <InfoIcon />

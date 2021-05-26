@@ -4,7 +4,7 @@ export const quiz2: Quiz = {
     id: "2",
     name: 'DC',
     playTime: '5 minutes',
-    score: 0,
+    totalPoints: 25,
     totalQuestions: 3,
     questions: [
       {

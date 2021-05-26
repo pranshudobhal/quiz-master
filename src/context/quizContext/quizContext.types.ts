@@ -15,4 +15,4 @@ export type Action =
   } }
  | { type: 'ENABLE_CLICK' }
  | { type: 'DISABLE_CLICK' }
- | { type: 'RESET' }
+ | { type: 'RESET_QUIZ' }

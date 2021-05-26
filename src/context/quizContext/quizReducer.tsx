@@ -64,7 +64,7 @@ export const quizReducer = (state: InitialState, action: Action): InitialState =
         isOptionClickEnabled: false,
       };
 
-    case 'RESET':
+    case 'RESET_QUIZ':
       return { ...initialState };
 
     default:

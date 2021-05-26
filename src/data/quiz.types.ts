@@ -8,7 +8,7 @@ export type Option = {
     id: string;
     question: string;
     points: number;
-    selectedOptionID?: number | null;
+    selectedOptionID?: string | null;
     negativePoints?: number;
     options: Option[];
   };
@@ -16,7 +16,7 @@ export type Option = {
   export type Quiz = {
     id: string;
     name: string;
-    score: number;
+    totalPoints: number,
     totalQuestions: number;
     playTime: string;
     questions: Question[];

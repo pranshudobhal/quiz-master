@@ -4,17 +4,8 @@ import { useNavigate } from 'react-router';
 import { useQuiz } from '../../../context/quizContext/quizContext';
 import { Option, Question } from '../../../data/quiz.types';
 
-/**
- * TODO:
- * 1. set the selected option id in the state -- done
- * 2. make a function to check if answer is correct or not -- done
- * 3. update score and show the correct or wrong answer -- done
- * 4. increment question number state to +1 -- done
- * 5. if all questions over, show result
- */
-
 export function OptionContainer({ currentQuestion: question, optionData: option, questions }: { currentQuestion: Question; optionData: Option; questions: Question[] }) {
-  const { text } = option;
+  const { id, isRight, text } = option;
   const {
     state: { currentQuestionNumber, isOptionClickEnabled },
     dispatch,
@@ -27,7 +18,7 @@ export function OptionContainer({ currentQuestion: question, optionData: option,
   };
 
   const checkCorrectAnswerAndUpdateScore = (option: Option) => {
-    option.isRight ? dispatch({ type: 'INCREMENT_SCORE', payload: { score: question.points } }) : dispatch({ type: 'DECREMENT_SCORE', payload: { score: question.negativePoints } });
+    option.isRight ? dispatch({ type: 'INCREMENT_SCORE', payload: { score: question.points } }) : dispatch({ type: 'DECREMENT_SCORE', payload: { score: question.negativePoints ? question.negativePoints : 0 } });
 
     nextQuestionAndResultHandler();
   };
@@ -55,9 +46,9 @@ export function OptionContainer({ currentQuestion: question, optionData: option,
 
   const getOptionStyles = () => {
     if (!isOptionClickEnabled) {
-      if (option.isRight) {
+      if (isRight) {
         return correctAnswerColor;
-      } else if (option.id === selectedOptionID) {
+      } else if (id === selectedOptionID) {
         return wrongAnswerColor;
       }
     }
@@ -65,7 +56,7 @@ export function OptionContainer({ currentQuestion: question, optionData: option,
   };
 
   return (
-    <Box as="button" disabled={!isOptionClickEnabled} h={'full'} rounded={'xl'} p={4} cursor={'pointer'} onClick={() => selectedOptionHandler(option)} bg={getOptionStyles()}>
+    <Box as="button" disabled={!isOptionClickEnabled} h={'full'} rounded={'xl'} p={4} onClick={() => selectedOptionHandler(option)} bg={getOptionStyles()}>
       {text}
     </Box>
   );
