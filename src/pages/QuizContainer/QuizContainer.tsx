@@ -13,6 +13,7 @@ export function QuizContainer() {
   const quiz = allQuizzez.find((quizItem) => quizItem.id === quizID) as Quiz;
 
   useEffect(() => {
+    dispatch({ type: 'RESET_QUIZ' });
     dispatch({ type: 'INITIALIZE_SELECTED_QUIZ', payload: { quiz: quiz as Quiz } });
   }, [dispatch, quiz]);
 

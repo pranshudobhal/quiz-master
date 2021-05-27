@@ -35,7 +35,7 @@ export function QuestionContainer() {
             </Text>
           </Stack>
           <Stack isInline align={'baseline'} pb={6} pt={4}>
-            <Text fontSize={'xl'} color={useColorModeValue('gray.800', 'gray.100')}>
+            <Text fontSize={['lg', 'xl']} color={useColorModeValue('gray.800', 'gray.100')}>
               {currentQuestion.question}
             </Text>
           </Stack>
