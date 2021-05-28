@@ -19,7 +19,7 @@ export function OptionContainer({ question, optionData: option }: { question: Qu
   };
 
   return (
-    <Box as="button" disabled h={'full'} w={'full'} rounded={'xl'} p={4} bg={getOptionStyles()}>
+    <Box as="button" disabled h={'max-content'} w={'full'} rounded={'xl'} p={4} bg={getOptionStyles()}>
       {text}
     </Box>
   );

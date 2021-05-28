@@ -13,7 +13,7 @@ export function QuestionContainer() {
   const currentQuestion = questions[currentQuestionNumber];
 
   return (
-    <Flex minH={'80vh'} align={'center'} justify={'center'} py={8} bg={useColorModeValue('gray.50', 'gray.800')}>
+    <Flex minH={'80vh'} align={['flex-start', 'center']} justify={'center'} py={8} bg={useColorModeValue('white', 'gray.800')}>
       <Stack boxShadow={'2xl'} maxW={['365px', '80vw', '70vw', '60vw', '50vw']} bg={useColorModeValue('white', 'gray.700')} rounded={'xl'} p={[8, 10]} spacing={8} align={'center'}>
         <Stack spacing={2}>
           <Heading align={'center'} textTransform={'uppercase'} fontSize={['xl', '2xl', '3xl']} mb={5} color={useColorModeValue('gray.800', 'gray.200')}>

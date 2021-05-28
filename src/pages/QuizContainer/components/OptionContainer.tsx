@@ -56,7 +56,7 @@ export function OptionContainer({ currentQuestion: question, optionData: option,
   };
 
   return (
-    <Box as="button" disabled={!isOptionClickEnabled} h={'full'} rounded={'xl'} p={4} onClick={() => selectedOptionHandler(option)} bg={getOptionStyles()}>
+    <Box as="button" disabled={!isOptionClickEnabled} h={'max-content'} rounded={'xl'} p={4} onClick={() => selectedOptionHandler(option)} bg={getOptionStyles()}>
       {text}
     </Box>
   );

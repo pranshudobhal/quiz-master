@@ -18,9 +18,9 @@ export function QuizContainer() {
   }, [dispatch, quiz]);
 
   return (
-    <div>
+    <>
       {!startQuiz && <RulesContainer setStartQuiz={setStartQuiz} quiz={quiz} />}
       {startQuiz && <QuestionContainer />}
-    </div>
+    </>
   );
 }
