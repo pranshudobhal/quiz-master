@@ -1,26 +1,31 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useQuiz } from '../../context/quizContext/quizContext';
-import { allQuizzez } from '../../data/getQuiz';
 import { Quiz } from '../../data/quiz.types';
+import { Error404 } from '../Error/Error404';
 import { QuestionContainer } from './components/QuestionContainer';
 import { RulesContainer } from './components/RulesContainer';
 
 export function QuizContainer() {
   const [startQuiz, setStartQuiz] = useState<boolean>(false);
-  const { dispatch } = useQuiz();
+  const {
+    state: { allQuizzes },
+    dispatch,
+  } = useQuiz();
   const { quizID } = useParams();
-  const quiz = allQuizzez.find((quizItem) => quizItem.id === quizID) as Quiz;
+  const quiz = allQuizzes?.find((quizItem) => quizItem._id === quizID) as Quiz;
 
   useEffect(() => {
-    dispatch({ type: 'RESET_QUIZ' });
-    dispatch({ type: 'INITIALIZE_SELECTED_QUIZ', payload: { quiz: quiz as Quiz } });
+    if (quiz) {
+      dispatch({ type: 'INITIALIZE_SELECTED_QUIZ', payload: { currentQuiz: quiz as Quiz } });
+    }
   }, [dispatch, quiz]);
 
   return (
     <>
-      {!startQuiz && <RulesContainer setStartQuiz={setStartQuiz} quiz={quiz} />}
-      {startQuiz && <QuestionContainer />}
+      {quiz && !startQuiz && <RulesContainer setStartQuiz={setStartQuiz} quiz={quiz} />}
+      {quiz && startQuiz && <QuestionContainer />}
+      {!quiz && <Error404 />}
     </>
   );
 }

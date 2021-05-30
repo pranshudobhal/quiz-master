@@ -5,7 +5,7 @@ import { useQuiz } from '../../../context/quizContext/quizContext';
 import { Option, Question } from '../../../data/quiz.types';
 
 export function OptionContainer({ currentQuestion: question, optionData: option, questions }: { currentQuestion: Question; optionData: Option; questions: Question[] }) {
-  const { id, isRight, text } = option;
+  const { _id, isRight, text } = option;
   const {
     state: { currentQuestionNumber, isOptionClickEnabled },
     dispatch,
@@ -24,12 +24,12 @@ export function OptionContainer({ currentQuestion: question, optionData: option,
   };
 
   const selectedOptionHandler = (option: Option) => {
-    setSelectedOptionID(option.id);
+    setSelectedOptionID(option._id);
     dispatch({
       type: 'SET_SELECTED_OPTION',
       payload: {
-        questionID: question.id,
-        optionID: option.id,
+        questionID: question._id,
+        optionID: option._id,
       },
     });
     dispatch({ type: 'DISABLE_CLICK' });
@@ -48,7 +48,7 @@ export function OptionContainer({ currentQuestion: question, optionData: option,
     if (!isOptionClickEnabled) {
       if (isRight) {
         return correctAnswerColor;
-      } else if (id === selectedOptionID) {
+      } else if (_id === selectedOptionID) {
         return wrongAnswerColor;
       }
     }

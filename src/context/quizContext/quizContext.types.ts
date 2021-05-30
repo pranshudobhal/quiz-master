@@ -1,11 +1,12 @@
-import { Quiz } from "../../data/quiz.types"
+import { AllQuizzes, Quiz } from "../../data/quiz.types"
 
-export type InitialState = { currentQuiz: Quiz | null; currentQuestionNumber: number; score: number; isOptionClickEnabled: boolean; }
+export type InitialState = { allQuizzes: AllQuizzes | null, currentQuiz: Quiz | null; currentQuestionNumber: number; score: number; isOptionClickEnabled: boolean; }
 
 export type CreateContext = { state: InitialState; dispatch: React.Dispatch<any> }
 
 export type Action = 
- | { type: 'INITIALIZE_SELECTED_QUIZ', payload: { quiz: Quiz } }
+ | { type: 'INITIALIZE_ALL_QUIZZES', payload: AllQuizzes }
+ | { type: 'INITIALIZE_SELECTED_QUIZ', payload: { currentQuiz: Quiz } }
  | { type: 'INCREMENT_SCORE', payload: { score: number } }
  | { type: 'DECREMENT_SCORE', payload: { score: number } }
  | { type: 'INCREMENT_QUESTION_NUMBER' }

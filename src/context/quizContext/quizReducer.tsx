@@ -1,12 +1,24 @@
 import { Quiz } from '../../data/quiz.types';
 import { Action, InitialState } from './quizContext.types';
 
-export const initialState: InitialState = { currentQuiz: null, currentQuestionNumber: 0, score: 0, isOptionClickEnabled: true };
+export const initialState: InitialState = {
+  allQuizzes: null,
+  currentQuiz: null,
+  currentQuestionNumber: 0,
+  score: 0,
+  isOptionClickEnabled: true,
+};
 
 export const quizReducer = (state: InitialState, action: Action): InitialState => {
   switch (action.type) {
+    case 'INITIALIZE_ALL_QUIZZES':
+      return {
+        ...state,
+        allQuizzes: action.payload,
+      };
+
     case 'INITIALIZE_SELECTED_QUIZ':
-      const selectedQuiz = action.payload.quiz as Quiz;
+      const selectedQuiz = action.payload.currentQuiz as Quiz;
       selectedQuiz.questions.forEach((question) => (question.selectedOptionID = null));
 
       return {
@@ -19,7 +31,7 @@ export const quizReducer = (state: InitialState, action: Action): InitialState =
     case 'SET_SELECTED_OPTION':
       const { questionID, optionID } = action.payload;
       const quizQuestions = state.currentQuiz?.questions.map((question) => {
-        if (question.id === questionID) {
+        if (question._id === questionID) {
           return { ...question, selectedOptionID: optionID };
         } else {
           return question;
@@ -65,7 +77,13 @@ export const quizReducer = (state: InitialState, action: Action): InitialState =
       };
 
     case 'RESET_QUIZ':
-      return { ...initialState };
+      return {
+        ...state,
+        currentQuiz: null,
+        currentQuestionNumber: 0,
+        score: 0,
+        isOptionClickEnabled: true,
+      };
 
     default:
       throw new Error('Error in quiz reducer');

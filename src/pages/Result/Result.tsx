@@ -21,7 +21,7 @@ export function Result() {
         </Text>
       </Stack>
       {questions.map((question) => {
-        return <QuestionContainer key={question.id} question={question} />;
+        return <QuestionContainer key={question._id} question={question} />;
       })}
     </Flex>
   );

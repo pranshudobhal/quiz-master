@@ -4,7 +4,7 @@ import { Quiz } from '../../../data/quiz.types';
 
 export function QuizCard({ quizItem }: { quizItem: Quiz }) {
   const navigate = useNavigate();
-  const { id, name } = quizItem;
+  const { _id: id, name } = quizItem;
 
   return (
     <Center py={4}>

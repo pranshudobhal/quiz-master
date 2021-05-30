@@ -41,7 +41,7 @@ export function QuestionContainer() {
           </Stack>
           <Grid templateColumns="1fr" gap={4}>
             {currentQuestion.options.map((option) => {
-              return <OptionContainer key={option.id} currentQuestion={currentQuestion} questions={questions} optionData={option} />;
+              return <OptionContainer key={option._id} currentQuestion={currentQuestion} questions={questions} optionData={option} />;
             })}
           </Grid>
         </Stack>
