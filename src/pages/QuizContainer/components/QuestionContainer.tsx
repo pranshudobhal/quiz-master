@@ -1,5 +1,5 @@
 import { Flex, Stack, Heading, Text, useColorModeValue, Spacer, Grid } from '@chakra-ui/react';
-import { useQuiz } from '../../../context/quizContext/quizContext';
+import { useQuiz } from '../../../context/quiz/quizContext';
 import { Quiz } from '../../../data/quiz.types';
 import { OptionContainer } from './OptionContainer';
 

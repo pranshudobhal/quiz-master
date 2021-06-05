@@ -1,9 +1,9 @@
 import { createContext, useContext, useReducer, FunctionComponent, useEffect } from 'react';
 import { quizReducer, initialState } from './quizReducer';
 import axios from 'axios';
-import { CreateContext } from './quizContext.types';
+import { CreateQuizContext } from './quizContext.types';
 
-const QuizContext = createContext<CreateContext>({ state: initialState, dispatch: () => null });
+const QuizContext = createContext<CreateQuizContext>({ state: initialState, dispatch: () => null });
 
 export const QuizProvider: FunctionComponent = ({ children }) => {
   const [state, dispatch] = useReducer(quizReducer, initialState);

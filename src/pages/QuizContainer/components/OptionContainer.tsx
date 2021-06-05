@@ -1,7 +1,7 @@
 import { Box, useColorModeValue } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useQuiz } from '../../../context/quizContext/quizContext';
+import { useQuiz } from '../../../context/quiz/quizContext';
 import { Option, Question } from '../../../data/quiz.types';
 
 export function OptionContainer({ currentQuestion: question, optionData: option, questions }: { currentQuestion: Question; optionData: Option; questions: Question[] }) {

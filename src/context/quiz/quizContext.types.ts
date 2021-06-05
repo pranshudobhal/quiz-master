@@ -2,7 +2,7 @@ import { AllQuizzes, Quiz } from "../../data/quiz.types"
 
 export type InitialState = { allQuizzes: AllQuizzes | null, currentQuiz: Quiz | null; currentQuestionNumber: number; score: number; isOptionClickEnabled: boolean; }
 
-export type CreateContext = { state: InitialState; dispatch: React.Dispatch<any> }
+export type CreateQuizContext = { state: InitialState; dispatch: React.Dispatch<any> }
 
 export type Action = 
  | { type: 'INITIALIZE_ALL_QUIZZES', payload: AllQuizzes }
