@@ -51,27 +51,26 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    (async function getUserData() {
-      try {
-        // const userResponse = await axios.get('http://localhost:3000/user');
+    token &&
+      (async function getUserData() {
+        try {
+          // const userResponse = await axios.get('http://localhost:3000/user');
 
-        const userResponse = await axios.get('https://quizmaster.pranshudobhal.repl.co/user');
-        console.log(userResponse);
-        setUser(userResponse.data.user);
-      } catch (error) {
-        console.error('Error getting user data from backend!!! ' + error);
-      }
-    })();
+          const userResponse = await axios.get('https://quizmaster.pranshudobhal.repl.co/user');
+          console.log(userResponse);
+          setUser(userResponse.data.user);
+        } catch (error) {
+          console.error('Error getting user data from backend!!! ' + error);
+        }
+      })();
   }, []);
 
   const loginUserWithCredentials = async (email: string, password: string, state: LocationState) => {
     try {
       const {
-        data: { user, token },
+        data: { token },
         status,
       } = await loginService(email, password);
-
-      console.log(user);
 
       if (status === 200) {
         setToken(token);
