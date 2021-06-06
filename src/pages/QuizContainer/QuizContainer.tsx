@@ -21,7 +21,7 @@ export function QuizContainer() {
     (async function fetchDataFromServer() {
       try {
         // const quizByID = await axios.get(`http://localhost:3000/quiz/${quizID}`);
-        const quizByID = await axios.get(`https://quizmaster.pranshudobhal.repl.co/${quizID}`);
+        const quizByID = await axios.get(`https://quizmaster.pranshudobhal.repl.co/quiz/${quizID}`);
 
         dispatch({ type: 'INITIALIZE_SELECTED_QUIZ', payload: { currentQuiz: quizByID.data.quiz[0] as Quiz } });
       } catch (error) {
