@@ -28,10 +28,15 @@ const setupAuthExceptionHandler = (logoutUser: any, navigate: any) => {
 };
 
 const loginService = (email: string, password: string) => {
-  return axios.post('http://localhost:3000/login', {
+  return axios.post('https://quizmaster.pranshudobhal.repl.co/login', {
     email: email,
     password: password,
   });
+
+  // return axios.post('http://localhost:3000/login', {
+  //   email: email,
+  //   password: password,
+  // });
 };
 
 export const AuthProvider: FunctionComponent = ({ children }) => {
@@ -48,7 +53,10 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
   useEffect(() => {
     (async function getUserData() {
       try {
-        const userResponse = await axios.get('http://localhost:3000/user');
+        // const userResponse = await axios.get('http://localhost:3000/user');
+
+        const userResponse = await axios.get('https://quizmaster.pranshudobhal.repl.co/user');
+        console.log(userResponse);
         setUser(userResponse.data.user);
       } catch (error) {
         console.error('Error getting user data from backend!!! ' + error);
