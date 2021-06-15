@@ -1,6 +1,6 @@
-import { Flex, Box, FormControl, FormLabel, Input, InputGroup, InputRightElement, Checkbox, Stack, Link, Button, Heading, Text, useColorModeValue, Alert, AlertIcon } from '@chakra-ui/react';
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { Flex, Box, FormControl, FormLabel, Input, InputGroup, HStack, InputRightElement, Stack, Button, Heading, Text, useColorModeValue, Alert, AlertIcon } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../../context/auth/authContext';
 
@@ -8,46 +8,35 @@ export type LocationState = {
   from: string;
 };
 
-export function Login() {
+export function SignUp() {
   const location = useLocation();
   const state = location.state as LocationState;
   const navigate = useNavigate();
 
-  // const { token, loginUserWithCredentials } = useAuth();
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
-  // const [dataValid, setDataValid] = useState(true);
-  // const [signInLoading, setSignInLoading] = useState(false);
-
-  const { token, loginUserWithCredentials } = useAuth();
+  const { token, signUpUser } = useAuth();
   const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
   const [dataValid, setDataValid] = useState(true);
-  const [signInLoading, setSignInLoading] = useState(false);
-
+  const [signUpLoading, setSignUpLoading] = useState(false);
+  const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  /**
-   * TODO:
-   * 1. Remember me and forgot password
-   */
+  const signUpHandler = async () => {
+    if (firstName && email && password !== '') {
+      setSignUpLoading(true);
+      const signUpResponse = await signUpUser(firstName, lastName, email, password, state);
 
-  /**
-   * FIXME:
-   * error not displaying
-   */
-
-  const loginHandler = async () => {
-    if (email && password !== '') {
-      setSignInLoading(true);
-      const loginResponse = await loginUserWithCredentials(email, password, state);
-      if (loginResponse === undefined) {
+      if (signUpResponse.status === 409) {
+        setError('User already exists!');
         setDataValid(false);
-        setSignInLoading(false);
+        setSignUpLoading(false);
       }
     } else {
+      setError('Please fill all required fields!');
       setDataValid(false);
-      setSignInLoading(false);
+      setSignUpLoading(false);
     }
   };
 
@@ -55,35 +44,12 @@ export function Login() {
     token && navigate('/');
   }, []);
 
-  // const loginHandler = async () => {
-  //   if (email && password !== '') {
-  //     setSignInLoading(true);
-  //     const loginResponse = await loginUserWithCredentials(email, password, state);
-  //     console.log({ loginResponse });
-
-  //     if (loginResponse.status === 401) {
-  //       console.log('i came here');
-  //       // setError('Incorrect email or password!');
-  //       // setDataValid(false);
-  //       console.log({ dataValid });
-  //       setSignInLoading(true);
-  //     }
-  //   } else {
-  //     // setDataValid(false);
-  //     // setSignInLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   token && navigate('/');
-  // }, []);
-
   return (
     <Flex minH={'80vh'} align={'center'} justify={'center'} bg={useColorModeValue('gray.50', 'gray.800')}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
           <Heading fontSize={'4xl'} textAlign={'center'}>
-            Sign in to your account
+            Sign up
           </Heading>
           <Text fontSize={'lg'} color={'gray.600'}>
             to enjoy all of our cool quizzes ✌️
@@ -94,9 +60,23 @@ export function Login() {
             {!dataValid && (
               <Alert status="error">
                 <AlertIcon />
-                Incorrect email or password!
+                {error}
               </Alert>
             )}
+            <HStack>
+              <Box>
+                <FormControl id="firstName" isRequired isInvalid={!dataValid}>
+                  <FormLabel>First Name</FormLabel>
+                  <Input type="text" value={firstName} onChange={(e) => setFirstName(() => e.target.value)} />
+                </FormControl>
+              </Box>
+              <Box>
+                <FormControl id="lastName">
+                  <FormLabel>Last Name</FormLabel>
+                  <Input type="text" value={lastName} onChange={(e) => setLastName(() => e.target.value)} />
+                </FormControl>
+              </Box>
+            </HStack>
             <FormControl id="email" isRequired isInvalid={!dataValid}>
               <FormLabel>Email address</FormLabel>
               <Input type="email" value={email} onChange={(e) => setEmail(() => e.target.value)} />
@@ -112,23 +92,11 @@ export function Login() {
                 </InputRightElement>
               </InputGroup>
             </FormControl>
-            <Stack spacing={10} pt={4}>
-              {/* <Stack direction={{ base: 'column', sm: 'row' }} align={'start'} justify={'space-between'}>
-                <Checkbox>Remember me</Checkbox>
-                <Link color={'blue.400'}>Forgot password?</Link>
-              </Stack> */}
-              <Stack>
-                <Text>
-                  Don't have an account?{' '}
-                  <Link color={'blue.400'} onClick={() => navigate('/signup')}>
-                    Sign Up
-                  </Link>
-                </Text>
-              </Stack>
+            <Stack spacing={10} pt={2}>
               <Button
-                isLoading={signInLoading}
+                isLoading={signUpLoading}
                 loadingText="Submitting"
-                onClick={loginHandler}
+                onClick={signUpHandler}
                 size="lg"
                 bg={'blue.400'}
                 color={'white'}
@@ -136,7 +104,7 @@ export function Login() {
                   bg: 'blue.500',
                 }}
               >
-                {token ? 'Sign Out' : 'Sign In'}
+                Sign Up
               </Button>
             </Stack>
           </Stack>

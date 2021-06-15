@@ -1,5 +1,5 @@
 import './App.css';
-import { Error404, Home, Login, Categories, QuizContainer, Result, Profile } from './pages';
+import { Error404, Home, Login, SignUp, Categories, QuizContainer, Result, Profile } from './pages';
 import { Routes, Route } from 'react-router-dom';
 import { Navbar } from './components';
 import { useQuiz } from './context/quiz/quizContext';
@@ -16,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
 
         <PrivateRoute path="/categories" element={<Categories />} />
         <PrivateRoute path="/profile" element={<Profile />} />

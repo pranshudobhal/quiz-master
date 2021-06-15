@@ -6,12 +6,12 @@ import { CreateAuthContext, User } from './authContext.types';
 
 const AuthContext = createContext<CreateAuthContext>({} as CreateAuthContext);
 
-function setupAuthHeaderForServiceCalls(token: string | null) {
+const setupAuthHeaderForServiceCalls = (token: string | null) => {
   if (token) {
     return (axios.defaults.headers.common['Authorization'] = token);
   }
   delete axios.defaults.headers.common['Authorization'];
-}
+};
 
 const setupAuthExceptionHandler = (logoutUser: any, navigate: any) => {
   const UNAUTHORIZED = 401;
@@ -20,7 +20,8 @@ const setupAuthExceptionHandler = (logoutUser: any, navigate: any) => {
     (error) => {
       if (error?.response?.status === UNAUTHORIZED) {
         logoutUser();
-        navigate('/login');
+        console.log('in setupAuthExceptionHandler');
+        // navigate('/login');
       }
       return Promise.reject(error);
     }
@@ -28,15 +29,24 @@ const setupAuthExceptionHandler = (logoutUser: any, navigate: any) => {
 };
 
 const loginService = (email: string, password: string) => {
-  return axios.post('https://quizmaster.pranshudobhal.repl.co/login', {
-    email: email,
-    password: password,
-  });
-
-  // return axios.post('http://localhost:3000/login', {
+  // return axios.post('https://quizmaster.pranshudobhal.repl.co/login', {
   //   email: email,
   //   password: password,
   // });
+
+  return axios.post('http://localhost:3000/login', {
+    email: email,
+    password: password,
+  });
+};
+
+const signUpService = (firstName: string, lastName: string, email: string, password: string) => {
+  return axios.post('http://localhost:3000/signup', {
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    password: password,
+  });
 };
 
 export const AuthProvider: FunctionComponent = ({ children }) => {
@@ -45,24 +55,21 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
 
+  const getUserData = async () => {
+    try {
+      const userResponse = await axios.get('http://localhost:3000/user');
+
+      // const userResponse = await axios.get('https://quizmaster.pranshudobhal.repl.co/user');
+
+      setUser(userResponse.data.user);
+    } catch (error) {
+      console.error('Error getting user data from backend!!! ' + error);
+    }
+  };
+
   useEffect(() => {
     token && setupAuthHeaderForServiceCalls(token);
     !token && setupAuthExceptionHandler(logoutUser, navigate);
-  }, []);
-
-  useEffect(() => {
-    token &&
-      (async function getUserData() {
-        try {
-          // const userResponse = await axios.get('http://localhost:3000/user');
-
-          const userResponse = await axios.get('https://quizmaster.pranshudobhal.repl.co/user');
-          console.log(userResponse);
-          setUser(userResponse.data.user);
-        } catch (error) {
-          console.error('Error getting user data from backend!!! ' + error);
-        }
-      })();
   }, []);
 
   const loginUserWithCredentials = async (email: string, password: string, state: LocationState) => {
@@ -76,6 +83,7 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
         setToken(token);
         localStorage?.setItem('login', JSON.stringify({ token: token }));
         setupAuthHeaderForServiceCalls(token);
+        getUserData();
         state === null ? navigate('/') : navigate(state.from ? state.from : '/');
       }
     } catch (error) {
@@ -88,6 +96,35 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
     }
   };
 
+  const signUpUser = async (firstName: string, lastName: string, email: string, password: string, state: LocationState) => {
+    try {
+      const {
+        data: { token, response },
+        status,
+      } = await signUpService(firstName, lastName, email, password);
+
+      if (status === 201) {
+        localStorage?.setItem('login', JSON.stringify({ token: token }));
+        setToken(token);
+        setupAuthHeaderForServiceCalls(token);
+        getUserData();
+        state === null ? navigate('/') : navigate(state.from ? state.from : '/');
+      }
+      return response;
+    } catch (error) {
+      const { response, message } = error;
+
+      if (response.status === 409) {
+        return response;
+      }
+      console.error('Error signing up user', message);
+    }
+  };
+
+  /**
+   * FIXME:
+   * navigate not holding login page
+   */
   const logoutUser = () => {
     setUser(null);
     setToken(null);
@@ -96,7 +133,7 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
     navigate('/');
   };
 
-  return <AuthContext.Provider value={{ user, token, loginUserWithCredentials, logoutUser }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, token, signUpUser, loginUserWithCredentials, logoutUser }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {
