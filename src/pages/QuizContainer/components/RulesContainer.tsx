@@ -4,7 +4,7 @@ import React, { SetStateAction } from 'react';
 import { Quiz } from '../../../data/quiz.types';
 
 export function RulesContainer({ setStartQuiz, quiz }: { setStartQuiz: React.Dispatch<SetStateAction<boolean>>; quiz: Quiz }) {
-  const { name } = quiz;
+  const { name, questions } = quiz;
 
   return (
     <Flex minH={'70vh'} align={'center'} justify={'center'} py={12} bg={useColorModeValue('white', 'gray.800')}>
@@ -16,19 +16,26 @@ export function RulesContainer({ setStartQuiz, quiz }: { setStartQuiz: React.Dis
           <Stack isInline align={'baseline'} pb={2}>
             <InfoIcon />
             <Text fontSize={'md'} color={'gray.500'}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, minus?
+              The quiz contains a total of {questions.length} questions
             </Text>
           </Stack>
           <Stack isInline align={'baseline'} pb={2}>
             <InfoIcon />
             <Text fontSize={'md'} color={'gray.500'}>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore doloribus sit libero minus modi accusamus ut fuga sapiente id ab!
+              10 marks for every{' '}
+              <Text as="span" fontWeight={'bold'} textTransform={'uppercase'} color={useColorModeValue('green.500', 'green.400')}>
+                correct answer
+              </Text>{' '}
+              and 5 negative marks for{' '}
+              <Text as="span" fontWeight={'bold'} textTransform={'uppercase'} color={useColorModeValue('red.500', 'red.400')}>
+                wrong answer
+              </Text>
             </Text>
           </Stack>
           <Stack isInline align={'baseline'} pb={2}>
             <InfoIcon />
             <Text fontSize={'md'} color={'gray.500'}>
-              Lorem ipsum dolor sit amet.
+              NO SKIP option! ☠
             </Text>
           </Stack>
         </Stack>

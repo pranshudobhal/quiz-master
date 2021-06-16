@@ -15,19 +15,14 @@ const setupAuthHeaderForServiceCalls = (token: string | null) => {
 };
 
 const loginService = (email: string, password: string) => {
-  // return axios.post('https://quizmaster.pranshudobhal.repl.co/login', {
-  //   email: email,
-  //   password: password,
-  // });
-
-  return axios.post('http://localhost:3000/login', {
+  return axios.post('https://quizmaster.pranshudobhal.repl.co/login', {
     email: email,
     password: password,
   });
 };
 
 const signUpService = (firstName: string, lastName: string, email: string, password: string) => {
-  return axios.post('http://localhost:3000/signup', {
+  return axios.post('https://quizmaster.pranshudobhal.repl.co/signup', {
     firstName: firstName,
     lastName: lastName,
     email: email,
@@ -59,9 +54,7 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
 
   const getUserData = async () => {
     try {
-      const userResponse = await axios.get('http://localhost:3000/user');
-
-      // const userResponse = await axios.get('https://quizmaster.pranshudobhal.repl.co/user');
+      const userResponse = await axios.get('https://quizmaster.pranshudobhal.repl.co/user');
 
       setUser(userResponse.data.user);
     } catch (error) {

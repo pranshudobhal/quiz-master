@@ -7,6 +7,7 @@ import { Quiz } from '../../data/quiz.types';
 import { Error404 } from '../Error/Error404';
 import { QuestionContainer } from './components/QuestionContainer';
 import { RulesContainer } from './components/RulesContainer';
+import { Loader } from '../../components';
 
 export function QuizContainer() {
   const [startQuiz, setStartQuiz] = useState<boolean>(false);
@@ -23,8 +24,7 @@ export function QuizContainer() {
     token &&
       (async function fetchDataFromServer() {
         try {
-          const quizByID = await axios.get(`http://localhost:3000/quiz/${quizID}`);
-          // const quizByID = await axios.get(`https://quizmaster.pranshudobhal.repl.co/quiz/${quizID}`);
+          const quizByID = await axios.get(`https://quizmaster.pranshudobhal.repl.co/quiz/${quizID}`);
 
           dispatch({ type: 'INITIALIZE_SELECTED_QUIZ', payload: { currentQuiz: quizByID.data.quiz[0] as Quiz } });
         } catch (error) {
@@ -38,7 +38,7 @@ export function QuizContainer() {
     <>
       {currentQuiz && !startQuiz && <RulesContainer setStartQuiz={setStartQuiz} quiz={currentQuiz as Quiz} />}
       {currentQuiz && startQuiz && <QuestionContainer />}
-      {!error && !currentQuiz && <h1>Loading...</h1>}
+      {!error && !currentQuiz && <Loader />}
       {error && !currentQuiz && <Error404 />}
     </>
   );

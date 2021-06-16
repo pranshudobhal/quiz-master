@@ -11,8 +11,7 @@ export const QuizProvider: FunctionComponent = ({ children }) => {
   useEffect(() => {
     (async function fetchDataFromServer() {
       try {
-        const quizResponse = await axios.get('http://localhost:3000/quiz');
-        // const quizResponse = await axios.get('https://quizmaster.pranshudobhal.repl.co/quiz');
+        const quizResponse = await axios.get('https://quizmaster.pranshudobhal.repl.co/quiz');
 
         dispatch({ type: 'INITIALIZE_ALL_QUIZZES', payload: quizResponse.data.allQuizzes });
       } catch (error) {

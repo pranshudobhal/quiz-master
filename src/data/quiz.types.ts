@@ -19,6 +19,8 @@ export type Option = {
     totalPoints: number,
     totalQuestions: number;
     playTime: string;
+    imageURL: string;
+    description: string;
     questions: Question[];
   };
 
