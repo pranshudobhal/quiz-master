@@ -13,12 +13,6 @@ export function Login() {
   const state = location.state as LocationState;
   const navigate = useNavigate();
 
-  // const { token, loginUserWithCredentials } = useAuth();
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
-  // const [dataValid, setDataValid] = useState(true);
-  // const [signInLoading, setSignInLoading] = useState(false);
-
   const { token, loginUserWithCredentials } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,16 +26,11 @@ export function Login() {
    * 1. Remember me and forgot password
    */
 
-  /**
-   * FIXME:
-   * error not displaying
-   */
-
   const loginHandler = async () => {
     if (email && password !== '') {
       setSignInLoading(true);
       const loginResponse = await loginUserWithCredentials(email, password, state);
-      if (loginResponse === undefined) {
+      if (loginResponse?.status === 401) {
         setDataValid(false);
         setSignInLoading(false);
       }
@@ -54,29 +43,6 @@ export function Login() {
   useEffect(() => {
     token && navigate('/');
   }, []);
-
-  // const loginHandler = async () => {
-  //   if (email && password !== '') {
-  //     setSignInLoading(true);
-  //     const loginResponse = await loginUserWithCredentials(email, password, state);
-  //     console.log({ loginResponse });
-
-  //     if (loginResponse.status === 401) {
-  //       console.log('i came here');
-  //       // setError('Incorrect email or password!');
-  //       // setDataValid(false);
-  //       console.log({ dataValid });
-  //       setSignInLoading(true);
-  //     }
-  //   } else {
-  //     // setDataValid(false);
-  //     // setSignInLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   token && navigate('/');
-  // }, []);
 
   return (
     <Flex minH={'80vh'} align={'center'} justify={'center'} bg={useColorModeValue('gray.50', 'gray.800')}>
@@ -112,19 +78,11 @@ export function Login() {
                 </InputRightElement>
               </InputGroup>
             </FormControl>
-            <Stack spacing={10} pt={4}>
+            <Stack spacing={10}>
               {/* <Stack direction={{ base: 'column', sm: 'row' }} align={'start'} justify={'space-between'}>
-                <Checkbox>Remember me</Checkbox>
+                <Checkbox>Remember me for 30 days</Checkbox>
                 <Link color={'blue.400'}>Forgot password?</Link>
               </Stack> */}
-              <Stack>
-                <Text>
-                  Don't have an account?{' '}
-                  <Link color={'blue.400'} onClick={() => navigate('/signup')}>
-                    Sign Up
-                  </Link>
-                </Text>
-              </Stack>
               <Button
                 isLoading={signInLoading}
                 loadingText="Submitting"
@@ -138,6 +96,14 @@ export function Login() {
               >
                 {token ? 'Sign Out' : 'Sign In'}
               </Button>
+            </Stack>
+            <Stack pt={6}>
+              <Text align={'center'}>
+                Don't have an account?{' '}
+                <Link color={'blue.400'} onClick={() => navigate('/signup')}>
+                  Sign Up
+                </Link>
+              </Text>
             </Stack>
           </Stack>
         </Box>

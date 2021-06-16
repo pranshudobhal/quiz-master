@@ -28,7 +28,7 @@ export function SignUp() {
       setSignUpLoading(true);
       const signUpResponse = await signUpUser(firstName, lastName, email, password, state);
 
-      if (signUpResponse.status === 409) {
+      if (signUpResponse?.status === 409) {
         setError('User already exists!');
         setDataValid(false);
         setSignUpLoading(false);

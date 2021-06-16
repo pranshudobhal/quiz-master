@@ -5,11 +5,10 @@ import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { QuizProvider, AuthProvider } from './context';
 import { ChakraProvider } from '@chakra-ui/react';
-import { theme } from './theme';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
+    <ChakraProvider>
       <Router>
         <AuthProvider>
           <QuizProvider>

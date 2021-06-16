@@ -1,3 +1,4 @@
+import { useToast } from '@chakra-ui/react';
 import axios from 'axios';
 import { createContext, FunctionComponent, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -11,21 +12,6 @@ const setupAuthHeaderForServiceCalls = (token: string | null) => {
     return (axios.defaults.headers.common['Authorization'] = token);
   }
   delete axios.defaults.headers.common['Authorization'];
-};
-
-const setupAuthExceptionHandler = (logoutUser: any, navigate: any) => {
-  const UNAUTHORIZED = 401;
-  axios.interceptors.response.use(
-    (response) => response,
-    (error) => {
-      if (error?.response?.status === UNAUTHORIZED) {
-        logoutUser();
-        console.log('in setupAuthExceptionHandler');
-        // navigate('/login');
-      }
-      return Promise.reject(error);
-    }
-  );
 };
 
 const loginService = (email: string, password: string) => {
@@ -54,6 +40,22 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
   const [token, setToken] = useState<string | null>(localStorageToken?.token);
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
+  token && setupAuthHeaderForServiceCalls(token);
+  const toast = useToast();
+
+  axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error?.response?.status === 403) {
+        logoutUser();
+      }
+      return Promise.reject(error);
+    }
+  );
+
+  useEffect(() => {
+    token && getUserData();
+  }, []);
 
   const getUserData = async () => {
     try {
@@ -67,15 +69,10 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    token && setupAuthHeaderForServiceCalls(token);
-    !token && setupAuthExceptionHandler(logoutUser, navigate);
-  }, []);
-
   const loginUserWithCredentials = async (email: string, password: string, state: LocationState) => {
     try {
       const {
-        data: { token },
+        data: { token, response },
         status,
       } = await loginService(email, password);
 
@@ -85,12 +82,20 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
         setupAuthHeaderForServiceCalls(token);
         getUserData();
         state === null ? navigate('/') : navigate(state.from ? state.from : '/');
+        toast({
+          title: 'Login Success!',
+          position: 'bottom-left',
+          duration: 4000,
+          status: 'success',
+          isClosable: true,
+        });
       }
+      return response;
     } catch (error) {
       const { response, message } = error;
 
       if (response.status === 401) {
-        return navigate('/login');
+        return response;
       }
       console.error('Error with login ', message);
     }
@@ -109,6 +114,13 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
         setupAuthHeaderForServiceCalls(token);
         getUserData();
         state === null ? navigate('/') : navigate(state.from ? state.from : '/');
+        toast({
+          title: 'Signup successful',
+          position: 'bottom-left',
+          duration: 5000,
+          status: 'success',
+          isClosable: true,
+        });
       }
       return response;
     } catch (error) {
@@ -121,15 +133,18 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
     }
   };
 
-  /**
-   * FIXME:
-   * navigate not holding login page
-   */
   const logoutUser = () => {
     setUser(null);
     setToken(null);
     localStorage?.removeItem('login');
     setupAuthHeaderForServiceCalls(null);
+    toast({
+      title: 'Logged out successfully',
+      position: 'bottom-left',
+      duration: 3000,
+      status: 'success',
+      isClosable: true,
+    });
     navigate('/');
   };
 
