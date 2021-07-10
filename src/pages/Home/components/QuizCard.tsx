@@ -13,10 +13,6 @@ export function QuizCard({ quizItem }: { quizItem: Quiz }) {
           <Image h={'100%'} w={'100%'} src={imageURL} objectFit="cover" alt={name} />
         </Box>
         <Stack>
-          {/* Can be used for categories */}
-          {/* <Text color={'green.500'} textTransform={'uppercase'} fontWeight={800} fontSize={'sm'} letterSpacing={1.1}>
-            {name}
-          </Text> */}
           <Heading color={useColorModeValue('gray.700', 'white')} fontSize={'xl'} fontFamily={'body'}>
             {name}
           </Heading>

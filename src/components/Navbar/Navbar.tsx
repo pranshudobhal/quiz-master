@@ -13,14 +13,6 @@ const Links: Array<LinksType> = [
     label: 'Home',
     href: '/',
   },
-  // {
-  //   label: 'Categories',
-  //   href: '/categories',
-  // },
-  // {
-  //   label: 'Leaderboard',
-  //   href: '/leaderboard',
-  // },
 ];
 
 const NavLink = ({ label, href }: LinksType) => (
@@ -76,7 +68,6 @@ export function Navbar() {
                     <MenuItem onClick={() => navigate('/profile')}>Signed in as {userDisplayName}</MenuItem>
                     <MenuDivider />
                     <MenuItem onClick={() => navigate('/profile')}>Profile</MenuItem>
-                    {/* <MenuItem>Settings</MenuItem> */}
                     <MenuDivider />
                     <MenuItem onClick={() => logoutUser()}>Log Out</MenuItem>
                   </MenuList>

@@ -21,11 +21,6 @@ export function Login() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  /**
-   * TODO:
-   * 1. Remember me and forgot password
-   */
-
   const loginHandler = async () => {
     if (email && password !== '') {
       setSignInLoading(true);
@@ -79,10 +74,6 @@ export function Login() {
               </InputGroup>
             </FormControl>
             <Stack spacing={10}>
-              {/* <Stack direction={{ base: 'column', sm: 'row' }} align={'start'} justify={'space-between'}>
-                <Checkbox>Remember me for 30 days</Checkbox>
-                <Link color={'blue.400'}>Forgot password?</Link>
-              </Stack> */}
               <Button
                 isLoading={signInLoading}
                 loadingText="Submitting"
