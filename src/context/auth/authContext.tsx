@@ -3,6 +3,8 @@ import axios from 'axios';
 import { createContext, FunctionComponent, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { LocationState } from '../../pages/Login/Login';
+import { loginService, signUpService } from '../../services';
+import { API_URL } from '../../utils';
 import { CreateAuthContext, User } from './authContext.types';
 
 const AuthContext = createContext<CreateAuthContext>({} as CreateAuthContext);
@@ -12,22 +14,6 @@ const setupAuthHeaderForServiceCalls = (token: string | null) => {
     return (axios.defaults.headers.common['Authorization'] = token);
   }
   delete axios.defaults.headers.common['Authorization'];
-};
-
-const loginService = (email: string, password: string) => {
-  return axios.post('https://quizmaster.pranshudobhal.repl.co/login', {
-    email: email,
-    password: password,
-  });
-};
-
-const signUpService = (firstName: string, lastName: string, email: string, password: string) => {
-  return axios.post('https://quizmaster.pranshudobhal.repl.co/signup', {
-    firstName: firstName,
-    lastName: lastName,
-    email: email,
-    password: password,
-  });
 };
 
 export const AuthProvider: FunctionComponent = ({ children }) => {
@@ -50,11 +36,11 @@ export const AuthProvider: FunctionComponent = ({ children }) => {
 
   useEffect(() => {
     token && getUserData();
-  }, []);
+  }, [token]);
 
   const getUserData = async () => {
     try {
-      const userResponse = await axios.get('https://quizmaster.pranshudobhal.repl.co/user');
+      const userResponse = await axios.get(`${API_URL}/user`);
 
       setUser(userResponse.data.user);
     } catch (error) {

@@ -1,4 +1,4 @@
-import { Flex, Box, FormControl, FormLabel, Input, InputGroup, InputRightElement, Checkbox, Stack, Link, Button, Heading, Text, useColorModeValue, Alert, AlertIcon } from '@chakra-ui/react';
+import { Flex, Box, FormControl, FormLabel, Input, InputGroup, InputRightElement, Stack, Link, Button, Heading, Text, useColorModeValue, Alert, AlertIcon } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
@@ -17,34 +17,34 @@ export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [dataValid, setDataValid] = useState(true);
-  const [signInLoading, setSignInLoading] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
 
   const loginHandler = async () => {
     if (email && password !== '') {
-      setSignInLoading(true);
+      setLoginLoading(true);
       const loginResponse = await loginUserWithCredentials(email, password, state);
       if (loginResponse?.status === 401) {
         setDataValid(false);
-        setSignInLoading(false);
+        setLoginLoading(false);
       }
     } else {
       setDataValid(false);
-      setSignInLoading(false);
+      setLoginLoading(false);
     }
   };
 
   useEffect(() => {
     token && navigate('/');
-  }, []);
+  }, [token, navigate]);
 
   return (
     <Flex minH={'80vh'} align={'center'} justify={'center'} bg={useColorModeValue('gray.50', 'gray.800')}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
           <Heading fontSize={'4xl'} textAlign={'center'}>
-            Sign in to your account
+            Login to your account
           </Heading>
           <Text fontSize={'lg'} color={'gray.600'}>
             to enjoy all of our cool quizzes ✌️
@@ -73,9 +73,9 @@ export function Login() {
                 </InputRightElement>
               </InputGroup>
             </FormControl>
-            <Stack spacing={10}>
+            <Stack spacing={10} pt={2}>
               <Button
-                isLoading={signInLoading}
+                isLoading={loginLoading}
                 loadingText="Submitting"
                 onClick={loginHandler}
                 size="lg"
@@ -85,10 +85,23 @@ export function Login() {
                   bg: 'blue.500',
                 }}
               >
-                {token ? 'Sign Out' : 'Sign In'}
+                {token ? 'Sign Out' : 'Login'}
               </Button>
             </Stack>
             <Stack pt={6}>
+              <Text align={'center'}>
+                <Link
+                  color={'blue.400'}
+                  onClick={() => {
+                    setEmail('test@gmail.com');
+                    setPassword('test');
+                  }}
+                >
+                  Use guest credentials
+                </Link>
+              </Text>
+            </Stack>
+            <Stack>
               <Text align={'center'}>
                 Don't have an account?{' '}
                 <Link color={'blue.400'} onClick={() => navigate('/signup')}>

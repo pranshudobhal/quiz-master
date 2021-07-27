@@ -1,4 +1,4 @@
-import { Flex, Box, FormControl, FormLabel, Input, InputGroup, HStack, InputRightElement, Stack, Button, Heading, Text, useColorModeValue, Alert, AlertIcon } from '@chakra-ui/react';
+import { Flex, Box, FormControl, FormLabel, Input, InputGroup, HStack, InputRightElement, Stack, Button, Heading, Text, useColorModeValue, Alert, AlertIcon, Link } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useLocation, useNavigate } from 'react-router';
@@ -42,7 +42,7 @@ export function SignUp() {
 
   useEffect(() => {
     token && navigate('/');
-  }, []);
+  }, [token, navigate]);
 
   return (
     <Flex minH={'80vh'} align={'center'} justify={'center'} bg={useColorModeValue('gray.50', 'gray.800')}>
@@ -106,6 +106,14 @@ export function SignUp() {
               >
                 Sign Up
               </Button>
+            </Stack>
+            <Stack pt={6}>
+              <Text align={'center'}>
+                Already a user?{' '}
+                <Link color={'blue.400'} onClick={() => navigate('/login')}>
+                  Login
+                </Link>
+              </Text>
             </Stack>
           </Stack>
         </Box>

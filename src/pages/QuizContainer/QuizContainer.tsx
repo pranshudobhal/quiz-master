@@ -8,6 +8,7 @@ import { Error404 } from '../Error/Error404';
 import { QuestionContainer } from './components/QuestionContainer';
 import { RulesContainer } from './components/RulesContainer';
 import { Loader } from '../../components';
+import { API_URL } from '../../utils';
 
 export function QuizContainer() {
   const [startQuiz, setStartQuiz] = useState<boolean>(false);
@@ -24,7 +25,7 @@ export function QuizContainer() {
     token &&
       (async function fetchDataFromServer() {
         try {
-          const quizByID = await axios.get(`https://quizmaster.pranshudobhal.repl.co/quiz/${quizID}`);
+          const quizByID = await axios.get(`${API_URL}/quiz/${quizID}`);
 
           dispatch({ type: 'INITIALIZE_SELECTED_QUIZ', payload: { currentQuiz: quizByID.data.quiz[0] as Quiz } });
         } catch (error) {
@@ -32,7 +33,7 @@ export function QuizContainer() {
           console.error('Error initializing quiz from backend!!! ' + error);
         }
       })();
-  }, []);
+  }, [token, dispatch, quizID]);
 
   return (
     <>
