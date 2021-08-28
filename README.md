@@ -1,4 +1,4 @@
-# QuizMaster
+# [QuizMaster](https://quiz-master-pink.vercel.app/)
 
 A quiz app on your favorite topics
 
